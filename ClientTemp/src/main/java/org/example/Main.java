@@ -21,7 +21,8 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String baseUrl = "http://localhost:8080";
+      //String baseUrl = "http://localhost:8080";
+        String baseUrl = "http://temp.eu-north-1.elasticbeanstalk.com";
         authClient = new AuthClient(baseUrl);
         authorClient = new AuthorClient(baseUrl);
         bookClient = new BookClient(baseUrl);
