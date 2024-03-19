@@ -3,7 +3,6 @@ package org.example.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,12 +11,10 @@ import java.net.http.HttpResponse;
 import java.util.Scanner;
 
 public class BookClient {
-
     private String baseUrl;
     private HttpClient httpClient;
     private String authToken;
     private Scanner scan;
-
 
     public BookClient(String baseUrl) {
         this.baseUrl = baseUrl + "/books";
@@ -33,9 +30,9 @@ public class BookClient {
             System.out.println("\n ** Bok Meny **");
             System.out.println("1. Se alla böcker (noAuth)");
             System.out.println("2. Hitta en bok utifrån id (noAuth)");
-            System.out.println("3. Lägg till en bok (admin)");
-            System.out.println("4. Uppdatera en bok (admin)");
-            System.out.println("5. Ta bort en bok (admin)");
+            System.out.println("3. Lägg till en bok (Auth)");
+            System.out.println("4. Uppdatera en bok (Auth)");
+            System.out.println("5. Ta bort en bok (Auth)");
             System.out.println("6. Tillbaka");
             System.out.print("Val: ");
             String choice = scan.nextLine();
@@ -86,7 +83,6 @@ public class BookClient {
                     break;
                 default:
                     System.out.println("Ogiltigt val. Försök igen.");
-
             }
 
         }
@@ -112,14 +108,11 @@ public class BookClient {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response);
-        System.out.println(response.body());
         System.out.println(handleResponse(response));
         return response.body();
     }
 
     private String addBook(String baseUrl, String authToken, String title, String genre) throws IOException, InterruptedException {
-
         String json = "{\"title\": \"" + title + "\", \"genre\": \"" + genre + "\"}";
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -150,7 +143,6 @@ public class BookClient {
     }
 
     private String deleteBook(String authToken, String requestToDeleteId) throws IOException, InterruptedException {
-
         if (findBookById(requestToDeleteId).isEmpty()) {
             System.out.println("Book with id: " + requestToDeleteId + " does not exist");
             return "";
@@ -163,7 +155,7 @@ public class BookClient {
                 .DELETE()
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        handleResponse(response);
+        System.out.println(handleResponse(response));
         return response.body();
     }
 
@@ -215,7 +207,6 @@ public class BookClient {
             }
         }
     }
-
     private String handleResponse(HttpResponse<String> response) {
         if (response.statusCode() == 401) {
             return "401: felaktiga behörigheter";

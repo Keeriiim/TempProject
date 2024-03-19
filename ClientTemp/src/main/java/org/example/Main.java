@@ -28,14 +28,13 @@ public class Main {
         bookClient = new BookClient(baseUrl);
         userClient = new UserClient(baseUrl);
 
-
         while (true) {
             System.out.println("\nVälkommen till applikationen. Välj ett alternativ:");
             System.out.println("1. Logga in ");
-            System.out.println("2. Registrera en användare (admin)");
+            System.out.println("2. Registrera en användare (Admin_Auth)");
             System.out.println("3. Administrera författare ");
             System.out.println("4. Administrera böcker");
-            System.out.println("5. Administrera användare (admin)");
+            System.out.println("5. Administrera användare (Admin_Auth)");
             System.out.println("6. Avsluta");
 
             System.out.print("Val: ");
@@ -96,7 +95,6 @@ public class Main {
 
                 JSONObject authTokenObj = new JSONObject(token);
                 active_token = authTokenObj.getString("accessToken");
-
 
             }
         } catch (Exception e) {

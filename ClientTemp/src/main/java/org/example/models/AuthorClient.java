@@ -1,10 +1,8 @@
 package org.example.models;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,22 +10,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Scanner;
 
-
-
 public class AuthorClient {
-
     private String baseUrl;
     private HttpClient httpClient;
     private String authToken;
     private Scanner scan;
-
     public AuthorClient(String baseUrl) {
         this.baseUrl = baseUrl + "/authors";
         this.httpClient = HttpClient.newHttpClient();
         this.scan = new Scanner(System.in);
     }
-
-
     public void run(String token) throws IOException, InterruptedException {
         this.authToken = token;
         Boolean program_is_running = true;
@@ -36,10 +28,10 @@ public class AuthorClient {
             System.out.println("\n ** Författar Meny **");
             System.out.println("1. Se alla författare (noAuth)");
             System.out.println("2. Hitta en författare utifrån id (noAuth)");
-            System.out.println("3. Lägg till bok hos författare");
-            System.out.println("4. Lägg till författare");
-            System.out.println("5. Uppdatera författare");
-            System.out.println("6. Ta bort författare");
+            System.out.println("3. Lägg till bok hos författare (Auth)");
+            System.out.println("4. Lägg till författare (Auth)");
+            System.out.println("5. Uppdatera författare (Auth)");
+            System.out.println("6. Ta bort författare (Auth)");
             System.out.println("7. Tillbaka");
             System.out.print("Val: ");
             String choice = scan.nextLine();
@@ -106,47 +98,6 @@ public class AuthorClient {
         }
     }
 
-
-/*
-    private AuthorDTO dtoHandler(String authorIdToUpdate) throws IOException, InterruptedException {
-        String authorJson = findAuthorById(authorIdToUpdate);
-
-        if (!authorJson.isEmpty()) {
-
-            // Get the author with all details in json code
-            // Extract the id, name and list of books from the json code
-            try {
-                JSONObject authorObj = new JSONObject(authorJson);
-                Integer id = authorObj.getInt("id");
-                String name = authorObj.getString("name");
-                JSONArray booksArray = authorObj.getJSONArray("books");
-
-                List<BookDTO> bookDTOList = new ArrayList<>();
-                for (int i = 0; i < booksArray.length(); i++) {
-                    JSONObject bookObj = booksArray.getJSONObject(i);
-                    Integer bookId = bookObj.getInt("id");
-                    String bookTitle = bookObj.getString("title");
-                    String bookGenre = bookObj.getString("genre");
-                    bookDTOList.add(new BookDTO(bookId, bookTitle, bookGenre));
-                }
-                // Create and return the AuthorDTO object
-                return new AuthorDTO(id, name, bookDTOList);
-            } catch (JSONException e) {
-                System.out.println("Error parsing JSON: " + e.getMessage());
-                e.printStackTrace();
-            }
-            ;
-        }
-
-        System.out.println("Author with id: " + authorIdToUpdate + " does not exist");
-        return new AuthorDTO();
-
-    }
-
- */
-
-
-
     public String getAllAuthors() throws IOException, InterruptedException {
         // This method sends a GET request to the server to get all authors
         // The server will respond with a list of authors
@@ -177,10 +128,6 @@ public class AuthorClient {
     }
 
     public String createAuthor(String authToken, String authorName) throws IOException, InterruptedException {
-        // This method sends a POST request to the server to create a new author
-        // The server will respond with the created author
-        // The author is then returned to the caller
-
         String json = "{\"name\": \"" + authorName + "\"}";
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -292,8 +239,6 @@ public class AuthorClient {
         }
     }
 
-
-
     private String handleResponse(HttpResponse<String> response) {
         if (response.statusCode() == 401) {
             return "401: felaktiga behörigheter";
@@ -308,5 +253,4 @@ public class AuthorClient {
             return response.statusCode() + ": Error";
         }
     }
-
 }

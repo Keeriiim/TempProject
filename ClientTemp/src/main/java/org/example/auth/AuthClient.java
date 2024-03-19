@@ -21,10 +21,6 @@ public class AuthClient {
     }
 
     public String login(String username, String password) throws IOException, InterruptedException {
-        // This method sends a POST request to the server to login an user
-        // The server will respond with a JWT token if the login is successful
-        // The token is then returned to the caller
-
         String url = baseurl + "/auth/login"; // The endpoint to send the POST request to
         String json = objectMapper.writeValueAsString(Map.of("username", username, "password", password)); // Creating the JSON payload
 
@@ -35,15 +31,11 @@ public class AuthClient {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        handleResponse(response);
+        System.out.println(handleResponse(response));
         return response.body();
     }
 
     public String register(String username, String password) throws IOException, InterruptedException {
-        // This method sends a POST request to the server to register an user
-        // The server will respond with a JWT token if the registration is successful
-        // The token is then returned to the caller
-
         String url = baseurl + "/auth/register";
         String json = objectMapper.writeValueAsString(Map.of("username", username, "password", password)); // Creating the JSON payload
 
@@ -54,15 +46,21 @@ public class AuthClient {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        handleResponse(response);
+        System.out.println(handleResponse(response));
         return response.body();
     }
-
-    private void handleResponse(HttpResponse<String> response) {
-        if (response.statusCode() >= 400) {
-            System.out.println("Error: " + response.statusCode());
+    private String handleResponse(HttpResponse<String> response) {
+        if (response.statusCode() == 401) {
+            return "401: felaktiga behörigheter";
+        }
+        else if(response.statusCode() == 200){
+            return "200: Success";
+        }
+        else if(response.statusCode() == 404){
+            return "404: Not found";
+        }
+        else {
+            return response.statusCode() + ": Error";
         }
     }
-
-
 }

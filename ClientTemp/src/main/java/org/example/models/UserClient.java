@@ -74,7 +74,6 @@ public class UserClient {
             }
         }
     }
-
     private String findAllUsers(String authToken) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl))
@@ -87,7 +86,6 @@ public class UserClient {
         System.out.println(handleResponse(response));
         return response.body();
     }
-
     private String findUserById(String authToken, String userId) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl + "/" + userId))
@@ -113,7 +111,6 @@ public class UserClient {
         System.out.println(handleResponse(response));
         return response.body();
     }
-
     private String updateUserRole(String authToken, String updateId) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl + "/roles/" + updateId))
@@ -126,7 +123,6 @@ public class UserClient {
         System.out.println(handleResponse(response));
         return response.body();
     }
-
     private String removeRole(String authToken, String removeId) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl + "/roles/" + removeId))
@@ -139,7 +135,6 @@ public class UserClient {
         System.out.println(handleResponse(response));
         return response.body();
     }
-
     private void printJson(String bookJson) {
         if (!bookJson.isEmpty()) {
             try {
@@ -214,6 +209,5 @@ public class UserClient {
             return response.statusCode() + ": Error";
         }
     }
-
 
 }
